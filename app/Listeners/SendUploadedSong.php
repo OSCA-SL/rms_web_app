@@ -118,8 +118,7 @@ class SendUploadedSong implements ShouldQueue
                     $error->save();*/
 
                     /**/$response_status = $res->getStatusCode();
-                    $fp_count = Fingerprint::connection('mysql_system')
-                        ->where('song_id', $song->id)
+                    $fp_count = Fingerprint::where('song_id', $song->id)
                         ->count();
                     if ($response_status >= 200 && $response_status < 300 && $fp_count > 0){
                         $song->hash_status = 3;
