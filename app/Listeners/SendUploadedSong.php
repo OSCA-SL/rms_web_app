@@ -123,9 +123,6 @@ class SendUploadedSong implements ShouldQueue
                     }
                     else{
                         $song->hash_status = 2;
-                        $error = new Error;
-                        $error->message = "CLOUD: Request: SEND EVENT RESPONSE OK: RES: {$res->getReasonPhrase()} | {$res->getStatusCode()}";
-                        $error->save();
                     }
 
                     $song->save();
