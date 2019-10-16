@@ -113,9 +113,7 @@ class SendUploadedSong implements ShouldQueue
                 function (ResponseInterface $res) use ($song){
                     $song->refresh();
 
-                    /*$error = new Error;
-                    $error->message = "Request: SEND EVENT RESPONSE OK";
-                    $error->save();*/
+
 
                     /**/$response_status = $res->getStatusCode();
                     $fp_count = Fingerprint::where('song_id', $song->id)
@@ -125,6 +123,9 @@ class SendUploadedSong implements ShouldQueue
                     }
                     else{
                         $song->hash_status = 2;
+                        $error = new Error;
+                        $error->message = "CLOUD: Request: SEND EVENT RESPONSE OK: RES: {$res->getReasonPhrase()} | {$res->getStatusCode()}";
+                        $error->save();
                     }
 
                     $song->save();
@@ -139,9 +140,9 @@ class SendUploadedSong implements ShouldQueue
 
                     $message = $e->getMessage();
                     $method = $e->getRequest()->getMethod();
-                    /*$error = new Error;
+                    $error = new Error;
                     $error->message = "CLOUD:HTTP: ".$message.", METHOD: ".$method.", BODY: ".$e->getRequest()->getBody();
-                    $error->save();*/
+                    $error->save();
 
                 }
             );
