@@ -42,9 +42,9 @@ class SendUploadedSong implements ShouldQueue
 
 //        $file_path = storage_path('app/public/songs/'.$file_name);
 
-        $error = new Error;
+        /*$error = new Error;
         $error->message = "Request: SEND EVENT CALLED. STARTING FTP";
-        $error->save();
+        $error->save();*/
 
         $local_file  = Storage::disk('public')->get("/songs/{$file_name}");
 
@@ -55,16 +55,16 @@ class SendUploadedSong implements ShouldQueue
         /*$ftp_exists = true;
         $ftp = true;*/
 
-        $error = new Error;
+        /*$error = new Error;
         $error->message = "Request: SEND EVENT CALLED. FTP: {$ftp}, FTP_EXIST: {$ftp_exists}";
-        $error->save();
+        $error->save();*/
 
         if ($ftp_exists == true){
 
 
-            $error = new Error;
+            /*$error = new Error;
             $error->message = "Request: SEND EVENT FTP OK, SONG: {$song->id}, F: {$file_name} SENDING TO: ".config('app.radio_server');
-            $error->save();
+            $error->save();*/
 
             $song->hash_status = 1;
             $song->save();
@@ -113,9 +113,9 @@ class SendUploadedSong implements ShouldQueue
                 function (ResponseInterface $res) use ($song){
                     $song->refresh();
 
-                    $error = new Error;
+                    /*$error = new Error;
                     $error->message = "Request: SEND EVENT RESPONSE OK";
-                    $error->save();
+                    $error->save();*/
 
                     /**/$response_status = $res->getStatusCode();
                     $fp_count = Fingerprint::connection('mysql_system')
@@ -140,9 +140,9 @@ class SendUploadedSong implements ShouldQueue
 
                     $message = $e->getMessage();
                     $method = $e->getRequest()->getMethod();
-                    $error = new Error;
+                    /*$error = new Error;
                     $error->message = "CLOUD:HTTP: ".$message.", METHOD: ".$method.", BODY: ".$e->getRequest()->getBody();
-                    $error->save();
+                    $error->save();*/
 
                 }
             );

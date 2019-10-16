@@ -30,9 +30,9 @@ class SongController extends Controller
     {
         $file_name = pathinfo(public_path($song->file_path))['basename'];
 
-        $error = new Error;
+        /*$error = new Error;
         $error->message = "Request SENDING OK: {$song->id},  FILENAME: {$file_name}";
-        $error->save();
+        $error->save();*/
 
         event(new SongUploaded($song, $file_name));
 
