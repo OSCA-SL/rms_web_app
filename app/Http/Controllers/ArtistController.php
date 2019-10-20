@@ -118,9 +118,12 @@ class ArtistController extends Controller
      */
     public function create()
     {
-        $artists = Artist::all();
+        if (auth()->user()->isAdmin()){
+            $artists = Artist::all();
 
-        return view('artists.create', ['artists' => $artists]);
+            return view('artists.create', ['artists' => $artists]);
+        }
+
     }
 
     /**
@@ -155,6 +158,7 @@ class ArtistController extends Controller
 
             $artist = new Artist;
             $artist->user_id = $user->id;
+            $artist->added_by = auth()->user()->id;
             $artist->membership_number = $request->input('membership_number');
             $artist->type = $request->input('type');
             $artist->status = $request->input('status');
@@ -189,7 +193,11 @@ class ArtistController extends Controller
      */
     public function edit(Artist $artist)
     {
-        //
+        if (auth()->user()->isAdmin()){
+            $artists = Artist::all();
+
+            return view('artists.edit', [ 'artist' => $artist, 'artists' => $artists]);
+        }
     }
 
     /**
@@ -201,7 +209,21 @@ class ArtistController extends Controller
      */
     public function update(Request $request, Artist $artist)
     {
-        //
+        if (auth()->user()->isAdmin()){
+
+            /*$user_id = $request->input('user_id');
+            $user = User::findOrFail($user_id);
+
+            $artist->user_id = $user->id;*/
+            $artist->updated_by = auth()->user()->id;
+            $artist->membership_number = $request->input('membership_number');
+            $artist->type = $request->input('type');
+            $artist->status = $request->input('status');
+            $artist->save();
+
+
+            return redirect()->route('artists.index')->with('status', 'Successfully updated the artist data!');
+        }
     }
 
     /**
@@ -212,6 +234,15 @@ class ArtistController extends Controller
      */
     public function destroy(Artist $artist)
     {
-        //
+        if (auth()->user()->isAdmin()){
+            $artist->deleted_by = auth()->user()->id;
+
+            $artist->save();
+
+            $artist->delete();
+
+
+            return response("Successfully deleted the user", 204);
+        }
     }
 }

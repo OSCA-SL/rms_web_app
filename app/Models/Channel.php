@@ -11,6 +11,11 @@ class Channel extends Model
 
     protected $guarded = ['id'];
 
+    public function matches()
+    {
+        return $this->hasMany('App\Models\Match', 'song_id');
+    }
+
     public function contactUser(){
         return $this->belongsTo('App\Models\User', 'contact_user');
     }
@@ -37,6 +42,8 @@ class Channel extends Model
     public function setFirstClipFailed()
     {
         $this->attributes['fetch_status'] = 0;
+        $this->fetch_status = 0;
+        return 0;
     }
 
     public function isFirstClipOk()
@@ -47,6 +54,8 @@ class Channel extends Model
     public function setFirstClipOk()
     {
         $this->attributes['fetch_status'] = 1;
+        $this->fetch_status = 1;
+        return 1;
     }
 
     public function isSecondClipFailed()
@@ -57,6 +66,8 @@ class Channel extends Model
     public function setSecondClipFailed()
     {
         $this->attributes['fetch_status'] = 2;
+        $this->fetch_status = 2;
+        return 2;
     }
 
     public function isSecondClipOk()
@@ -67,6 +78,8 @@ class Channel extends Model
     public function setSecondClipOk()
     {
         $this->attributes['fetch_status'] = 3;
+        $this->fetch_status = 3;
+        return 3;
     }
 
 
@@ -78,6 +91,8 @@ class Channel extends Model
     public function setMergingFailed()
     {
         $this->attributes['fetch_status'] = 4;
+        $this->fetch_status = 4;
+        return 4;
     }
 
     public function isMergingOk()
@@ -88,6 +103,8 @@ class Channel extends Model
     public function setMergingOk()
     {
         $this->attributes['fetch_status'] = 5;
+        $this->fetch_status = 5;
+        return 5;
     }
 
     public function isMatchRequestFailed()
@@ -98,6 +115,8 @@ class Channel extends Model
     public function setMatchRequestFailed()
     {
         $this->attributes['fetch_status'] = 6;
+        $this->fetch_status = 6;
+        return 6;
     }
 
     public function isMatchRequestOk()
@@ -108,6 +127,8 @@ class Channel extends Model
     public function setMatchRequestOk()
     {
         $this->attributes['fetch_status'] = 7;
+        $this->fetch_status = 7;
+        return 7;
     }
 
     public function getPreviousFetch()
@@ -118,12 +139,9 @@ class Channel extends Model
 
         if ($minute <= 0){
             if ($hour <= 0){
-                $hour = ($hour + 23) % 24;
-                if ($day <= 0){
-                    $day = ($day + 59) % 60;
-                }
-
+                $day = ($day + 59) % 60;
             }
+            $hour = ($hour + 23) % 24;
         }
 
         $minute = ($minute + 59) % 60;
@@ -150,11 +168,10 @@ class Channel extends Model
 
         if ($minute >= 59){
             if ($hour >= 23){
-                $hour = ($hour + 1) % 24;
-                if ($day >= 59){
-                    $day = ($day + 1) % 60;
-                }
+                $day = ($day + 1) % 60;
             }
+
+            $hour = ($hour + 1) % 24;
         }
 
         $minute = ($minute + 1) % 60;
@@ -164,12 +181,14 @@ class Channel extends Model
 
     public function setFetched($fetch)
     {
-        $this->fetched_day = $fetch['fetched_day'];
-        $this->fetched_hour = $fetch['fetched_hour'];
-        $this->fetched_minute = $fetch['fetched_minute'];
+        $this->fetched_day = $fetch['day'];
+        $this->fetched_hour = $fetch['hour'];
+        $this->fetched_minute = $fetch['minute'];
+        $this->save();
     }
 
 
 
 
 }
+

@@ -21,6 +21,8 @@ class CreateSongsTable extends Migration
             $table->date('released_at')->nullable();
             $table->unsignedBigInteger('added_by');
             $table->unsignedBigInteger('approved_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('deleted_by')->nullable();
             $table->string('details')->nullable();
             $table->tinyInteger('hash_status')->default(0); //
 //            0 - upload failed, 1 - uploaded, 2 - hash failed, 3 - hash success

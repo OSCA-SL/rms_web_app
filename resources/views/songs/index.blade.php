@@ -408,12 +408,12 @@
 
                     { data: 'id', name: 'songs.id', sortable: false, searchable: false, render:function (data, type, full) {
                         let html = '<span>\n' +
-                            '<a href="/songs/'+data+'/edit" class="btn btn-warning btn-circle waves-effect waves-circle waves-float" title="Edit">' +
+                            '<a href="/songs/'+data+'/edit" data-id="'+data+'" class="btn btn-warning btn-circle waves-effect waves-circle waves-float btn-edit" title="Edit">' +
                             '<i class="material-icons">edit</i>\n' +
                             '</a>\n' +
-                            '<a href="songs/'+data+'/delete" class="btn btn-danger btn-circle waves-effect waves-circle waves-float" title="Delete">\n' +
+                            '<button href="songs/'+data+'/delete" data-id="'+data+'" class="btn btn-danger btn-circle waves-effect waves-circle waves-float btn-delete" title="Delete">\n' +
                             '<i class="material-icons">delete</i>\n' +
-                            '</a>\n' +
+                            '</button>\n' +
                             '</span>';
                             return html;
                         }  },
@@ -449,6 +449,45 @@
                 e.stopImmediatePropagation();
             });
 
+            $(document).on('click', '.btn-delete', function (e) {
+               e.preventDefault();
+               let id = $(this).attr('data-id');
+                Swal.fire({
+                    title: 'Are you sure you want to delete this?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.value) {
+
+                        $.ajax({
+                            url: "/songs/"+id,
+                            method: "POST",
+                            data:{
+                                _method: "DELETE"
+                            },
+                            success: function (data) {
+                                console.log(data);
+                                window.document.location.reload();
+                                /*Swal.fire(
+                                    'Deleted!',
+                                    'Your file has been deleted.',
+                                    'success'
+                                );*/
+                            },
+                            error: function (data) {
+                                console.log(data);
+                            }
+
+                        });
+
+
+                    }
+                });
+            });
 
 
         });

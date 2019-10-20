@@ -119,9 +119,9 @@
                                                 <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-circle waves-effect waves-circle waves-float" title="Edit">
                                                 <i class="material-icons">edit</i>
                                             </a>
-                                            <a href="{{ route('users.destroy', $user->id) }}" class="btn btn-danger btn-circle waves-effect waves-circle waves-float" title="Delete">
+                                            <button data-id="{{ $user->id }}" href="{{ route('users.destroy', $user->id) }}" class="btn btn-danger btn-circle waves-effect waves-circle waves-float btn_delete" title="Delete">
                                                 <i class="material-icons">delete</i>
-                                            </a>
+                                            </button>
                                             </span>
 
                                     </td>
@@ -160,5 +160,49 @@
     {{--    <script src="/js/pages/tables/jquery-datatable.js"></script>--}}
 
     <script src="/js/datatables.js"></script>
+
+    <script>
+        $(function () {
+           $(document).on('click', '.btn_delete', function (e) {
+               e.preventDefault();
+               let id = $(this).attr('data-id');
+               Swal.fire({
+                   title: 'Are you sure you want to delete this?',
+                   text: "You won't be able to revert this!",
+                   type: 'warning',
+                   showCancelButton: true,
+                   confirmButtonColor: '#3085d6',
+                   cancelButtonColor: '#d33',
+                   confirmButtonText: 'Yes, delete it!'
+               }).then((result) => {
+                   if (result.value) {
+
+                       $.ajax({
+                           url: "/users/"+id,
+                           method: "POST",
+                           data:{
+                               _method: "DELETE"
+                           },
+                           success: function (data) {
+                               console.log(data);
+                               window.document.location.reload();
+                               /*Swal.fire(
+                                   'Deleted!',
+                                   'Your file has been deleted.',
+                                   'success'
+                               );*/
+                           },
+                           error: function (data) {
+                               console.log(data);
+                           }
+
+                       });
+
+
+                   }
+               });
+           });
+        });
+    </script>
 
 @endsection

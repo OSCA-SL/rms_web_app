@@ -79,7 +79,7 @@
                                     <div class="form-line">
                                         <label for="type">Artist Type</label>
                                         <select id="type" name="type" class="form-control show-tick select2" required>
-                                            <option value="0">-- Please select --</option>
+                                            <option value="0" disabled>-- Please select --</option>
                                             <option value="1">Singer</option>
                                             <option value="2">Music Director</option>
                                             <option value="3">Song Writer</option>
@@ -94,7 +94,7 @@
                                     <div class="form-line">
                                         <label for="status">Artist Status</label>
                                         <select id="status" name="status" class="form-control show-tick select2" required>
-                                            <option value="0">-- Please select --</option>
+                                            <option value="0" disabled>-- Please select --</option>
                                             <option value="1">Active Member</option>
                                             <option value="2">Consented Member</option>
                                             <option value="3">Non Member</option>
