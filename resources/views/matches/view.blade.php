@@ -58,54 +58,67 @@
                         <table class="table table-bordered table-striped table-hover dataTable js-exportable">
                             <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>#</th>
+                                <th>Song</th>
+                                <th>Singer(s)</th>
+                                <th>Musician(s)</th>
+                                <th>Writer(s)</th>
                                 <th>Start At</th>
                                 <th>End At</th>
                                 <th>Channel</th>
-                                <th>Song</th>
-                                <th>Artists</th>
-                                <th>Created At</th>
-                                <th>Updated At</th>
 {{--                                <th>Actions</th>--}}
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th>ID</th>
+                                <th>#</th>
+                                <th>Song</th>
+                                <th>Artists</th>
                                 <th>Start At</th>
                                 <th>End At</th>
                                 <th>Channel</th>
-                                <th>Song</th>
-                                <th>Artists</th>
-                                <th>Created At</th>
-                                <th>Updated At</th>
                             </tr>
                             </tfoot>
                             <tbody>
 
                             @foreach($matches as $match)
                                 <tr>
-                                    <td>{{ $match->id }}</td>
-                                    <td>{{ $match->start }}</td>
-                                    <td>{{ $match->end }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>
-                                        <strong>ID: </strong> {{ $match->channel->id }}, <strong>NAME: </strong> {{ $match->channel->name }}
-                                    </td>
-                                    <td>
-                                        <strong>ID: </strong> {{ $match->song->id }}, <strong>NAME: </strong> {{ $match->song->name }}
+                                       {{ $match->song->title }}
                                     </td>
                                     <td>
                                         <ul>
-                                            @foreach($match->song->artists as $artist)
+                                            @foreach($match->song->singers as $singer)
                                                 <li>
-                                                    ARTIST ID: {{ $artist->id }}, ARTIST NAME: {{ $artist->user->first_name }} {{ $artist->user->last_name }}
+                                                    {{ $singer->user->first_name }} {{ $singer->user->last_name }}
                                                 </li>
                                             @endforeach
                                         </ul>
-
                                     </td>
-                                    <td>{{ $match->created_at }}</td>
-                                    <td>{{ $match->updated_at }}</td>
+                                    <td>
+                                        <ul>
+                                            @foreach($match->song->musicians as $musician)
+                                                <li>
+                                                    {{ $musician->user->first_name }} {{ $musician->user->last_name }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            @foreach($match->song->writers as $writer)
+                                                <li>
+                                                    {{ $writer->user->first_name }} {{ $writer->user->last_name }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td>{{ $match->start }}</td>
+                                    <td>{{ $match->end }}</td>
+                                    <td>
+                                        {{ $match->channel->name }}
+                                    </td>
                                 </tr>
                             @endforeach
 
