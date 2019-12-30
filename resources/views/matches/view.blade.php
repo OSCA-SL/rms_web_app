@@ -73,7 +73,9 @@
                             <tr>
                                 <th>#</th>
                                 <th>Song</th>
-                                <th>Artists</th>
+                                <th>Singer(s)</th>
+                                <th>Musician(s)</th>
+                                <th>Writer(s)</th>
                                 <th>Start At</th>
                                 <th>End At</th>
                                 <th>Channel</th>
